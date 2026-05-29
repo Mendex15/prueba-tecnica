@@ -1,5 +1,5 @@
 {
-  // ui-lib se resuelve desde dist/ tras ejecutar: npm run build:lib
+  // ui-lib se resuelve desde su fuente para que Vercel pueda compilar sin depender de dist/
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
@@ -15,8 +15,8 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "ui-lib": ["./dist/ui-lib"],
-      "ui-lib/*": ["./dist/ui-lib/*"]
+      "ui-lib": ["./projects/ui-lib/src/public-api.ts"],
+      "ui-lib/*": ["./projects/ui-lib/src/lib/*"]
     }
   },
   "angularCompilerOptions": {

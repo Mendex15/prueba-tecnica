@@ -9,13 +9,14 @@ my-workspace/
 ├── projects/
 │   ├── ui-lib/       # Librería: ui-button, ui-card, ui-select, ui-table
 │   └── demo-app/     # Explorer: filtros, tabla, modal de detalle
-├── dist/ui-lib/      # Build de la librería (path alias en tsconfig)
+├── dist/ui-lib/      # Build de la librería
 ├── angular.json
 └── package.json
 ```
 
 - **Estado del flujo** (recurso, filtro, filas, loading, error): `ResourceService` con **signals**. Los componentes no hacen HTTP.
 - **Convenciones**: standalone, `OnPush`, `input()` / `output()` / `model()`, prefijo `ui-`, `strict: true`, sin `any`.
+- **Resolución de `ui-lib`**: la demo importa la librería desde su código fuente mediante alias de TypeScript, así el build de Vercel no depende de un `dist/` previo.
 - **Estilos**: Tailwind CSS **v3** únicamente (`tailwindcss` + `autoprefixer` en PostCSS).
 
 ## Instalación y ejecución
