@@ -1,0 +1,59 @@
+/* ui-card: contenedor con cabecera y cuerpo (tema portal) */
+
+:host {
+  display: block;
+}
+
+.ui-card {
+  border-radius: 18px;
+  overflow: hidden;
+  width: 100%;
+  background: linear-gradient(145deg, rgba(12, 18, 34, 0.95) 0%, rgba(8, 14, 26, 0.88) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  box-shadow:
+    0 24px 48px rgba(5, 10, 24, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.ui-card--raised {
+  box-shadow:
+    0 28px 56px rgba(5, 10, 24, 0.65),
+    0 0 32px rgba(34, 197, 94, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.ui-card--outlined {
+  background: rgba(8, 14, 26, 0.6);
+  border: 2px solid rgba(34, 197, 94, 0.45);
+}
+
+.ui-card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.08));
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ui-card-header:hover {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.18), rgba(6, 182, 212, 0.12));
+}
+
+.ui-card-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #4ade80;
+  letter-spacing: 0.02em;
+}
+
+.ui-card-subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.ui-card-body {
+  padding: 1.25rem;
+}

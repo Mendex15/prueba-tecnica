@@ -1,0 +1,145 @@
+<!-- Shell principal: fondo, cabecera, contenido y pie -->
+<div class="app-shell">
+  <div class="stars" aria-hidden="true"></div>
+
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="app-hero">
+        <div class="logo-wrap animate-float">
+          <img class="logo-mark" src="/logo.png" alt="Logo de Rick and Morty" />
+        </div>
+        <div class="app-hero-text">
+          <p class="tagline">Explorador del Multiverso</p>
+          <h1 class="app-title">Rick & Morty</h1>
+          <p class="app-subtitle">Base de recursos interdimensionales</p>
+        </div>
+      </div>
+
+      <section class="filters-section" aria-labelledby="filters-heading">
+        <h2 id="filters-heading" class="filters-heading">Filtros de búsqueda</h2>
+        <div class="filters-grid">
+          <div class="filter-card">
+            <ui-select
+              label="Tipo de recurso"
+              placeholder="Selecciona una opción"
+              [options]="resourceOptions"
+              [value]="selectedResource()"
+              (selectionChange)="onResourceChange($event)"
+            />
+          </div>
+          <div class="filter-card" [class.filter-card--disabled]="!isStatusFilterEnabled()">
+            <ui-select
+              label="Estado (solo personajes)"
+              placeholder="Mostrar todos"
+              [options]="statusOptions"
+              [value]="selectedFilter()"
+              [disabled]="!isStatusFilterEnabled()"
+              (selectionChange)="onFilterChange($event)"
+            />
+            @if (!isStatusFilterEnabled()) {
+              <p class="filter-hint">Disponible únicamente para personajes</p>
+            }
+          </div>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <section class="results-section" aria-labelledby="results-heading">
+      <div class="results-header">
+        <h2 id="results-heading" class="results-title">
+          {{ getResourceLabel() }}
+        </h2>
+        @if (!resourceService.loading()) {
+          <span class="results-count">{{ resourceService.rows().length }} registros</span>
+        }
+      </div>
+
+      <div class="table-panel">
+        <ui-table
+          [columns]="getColumns()"
+          [rows]="resourceService.rows()"
+          [loading]="resourceService.loading()"
+          [errorMessage]="resourceService.error()"
+          [emptyMessage]="'No se encontraron ' + getEmptyMessageForResource() + ' con este filtro'"
+          (actionTriggered)="onAction($event)"
+        />
+        @if (resourceService.error() && !resourceService.loading()) {
+          <div class="table-retry-bar">
+            <ui-button label="Reintentar" variant="primary" size="md" (clicked)="retryLoad()" />
+          </div>
+        }
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      Datos de la
+      <a href="https://rickandmortyapi.com" target="_blank" rel="noopener noreferrer">Rick and Morty API</a>
+    </p>
+  </footer>
+</div>
+
+<!-- Modal de detalle: overlay + ui-card con todos los campos del registro -->
+@if (showModal() && selectedRow()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="closeModal()"
+    aria-hidden="false"
+  >
+    <div
+      class="modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'Detalle de ' + getModalTitle()"
+      (click)="$event.stopPropagation()"
+    >
+      <button type="button" class="modal-close" aria-label="Cerrar" (click)="closeModal()">
+        ×
+      </button>
+
+      <ui-card
+        [title]="getModalTitle()"
+        [subtitle]="getModalSubtitle()"
+        elevation="raised"
+      >
+        <div class="detail-body" [class.detail-body--with-image]="hasDetailImage()">
+          @if (hasDetailImage()) {
+            <div class="detail-media">
+              <img
+                [src]="getDetailImageUrl()"
+                [alt]="getModalTitle()"
+                class="detail-avatar"
+              />
+            </div>
+          }
+
+          <div class="detail-meta">
+            @for (entry of getDetailEntries(); track entry.label) {
+              <div class="detail-row">
+                <span class="detail-label">{{ entry.label }}</span>
+                <span
+                  class="detail-value"
+                  [class.detail-ok]="entry.label === 'Estado' && entry.value === 'Alive'"
+                  [class.detail-bad]="entry.label === 'Estado' && entry.value === 'Dead'"
+                  [class.detail-muted]="entry.label === 'Estado' && entry.value === 'unknown'"
+                  [class.detail-value--url]="entry.label.startsWith('URL')"
+                >
+                  {{ entry.value }}
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <ui-button label="Cerrar" variant="secondary" size="md" (clicked)="closeModal()" />
+          <ui-button label="Eliminar" variant="danger" size="md" (clicked)="onDeleteConfirm()" />
+        </div>
+      </ui-card>
+    </div>
+  </div>
+}

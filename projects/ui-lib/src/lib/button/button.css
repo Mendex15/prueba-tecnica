@@ -1,0 +1,34 @@
+/**
+ * ui-button: hover con elevación; estado loading vía aria-busy.
+ */
+
+@keyframes button-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+  }
+}
+
+@keyframes button-pulse-danger {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+  }
+}
+
+ui-button {
+  display: inline-block;
+}
+
+ui-button button:hover:not(:disabled):not([aria-busy='true']) {
+  transform: translateY(-1px);
+}
+
+ui-button button[aria-busy='true'] {
+  opacity: 0.85;
+  cursor: wait;
+}

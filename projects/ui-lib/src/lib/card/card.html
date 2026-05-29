@@ -1,0 +1,13 @@
+<!-- Tarjeta: cabecera clicable + cuerpo con ng-content -->
+<div [class]="getContainerClasses()">
+  <div class="ui-card-header" (click)="onHeaderClick()">
+    <h3 class="ui-card-title">{{ title() }}</h3>
+    @if (subtitle()) {
+      <p class="ui-card-subtitle">{{ subtitle() }}</p>
+    }
+  </div>
+
+  <div class="ui-card-body">
+    <ng-content />
+  </div>
+</div>

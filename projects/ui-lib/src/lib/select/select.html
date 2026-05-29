@@ -1,0 +1,22 @@
+<!-- Select nativo estilizado; emite selectionChange al cambiar -->
+<div class="ui-select">
+  @if (label()) {
+    <label class="ui-select-label">{{ label() }}</label>
+  }
+
+  @if (loading()) {
+    <div class="ui-select-skeleton" aria-hidden="true"></div>
+  } @else {
+    <select
+      [disabled]="disabled()"
+      [value]="value() ?? ''"
+      (change)="onSelect($event)"
+      class="ui-select-control"
+    >
+      <option value="" disabled class="bg-gray-900">{{ placeholder() }}</option>
+      @for (option of options(); track option.value) {
+        <option [value]="option.value" class="bg-gray-900 text-white">{{ option.label }}</option>
+      }
+    </select>
+  }
+</div>

@@ -1,0 +1,85 @@
+<!-- Tabla genérica: thead fijo, filas con avatar/badge según columna -->
+<div class="rm-table-wrap">
+  <table class="rm-table">
+    <thead class="rm-table-head">
+      <tr>
+        @for (col of columns(); track col.key) {
+          <th class="rm-table-th">{{ col.header }}</th>
+        }
+        <th class="rm-table-th rm-table-actions">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @if (loading()) {
+        @for (row of skeletonRows; track $index) {
+          <tr class="rm-table-row">
+            @for (col of columns(); track col.key) {
+              <td class="rm-table-td">
+                <div class="rm-skeleton"></div>
+              </td>
+            }
+            <td class="rm-table-td">
+              <div class="rm-skeleton rm-skeleton--short"></div>
+            </td>
+          </tr>
+        }
+      } @else if (errorMessage()) {
+        <tr>
+          <td [colSpan]="columns().length + 1" class="rm-table-empty">
+            <div class="rm-empty-state">
+              <span class="rm-empty-icon" aria-hidden="true">⚠️</span>
+              <p class="rm-empty-title">{{ errorMessage() }}</p>
+              <p class="rm-empty-hint">Por favor intenta de nuevo más tarde</p>
+            </div>
+          </td>
+        </tr>
+      } @else if (rows().length === 0) {
+        <tr>
+          <td [colSpan]="columns().length + 1" class="rm-table-empty">
+            <div class="rm-empty-state">
+              <span class="rm-empty-icon" aria-hidden="true">📭</span>
+              <p class="rm-empty-message">{{ emptyMessage() }}</p>
+            </div>
+          </td>
+        </tr>
+      } @else {
+        @for (row of rows(); track $index) {
+          <tr class="rm-table-row">
+            @for (col of columns(); track col.key) {
+              <td class="rm-table-td" [class.rm-table-td--name]="col.key === 'name'">
+                @if (col.key === 'name' && row['image']) {
+                  <div class="rm-cell-name">
+                    <img
+                      [src]="row['image']"
+                      [alt]="getCellValue(row, col.key)"
+                      class="rm-avatar"
+                      loading="lazy"
+                    />
+                    <span>{{ getCellValue(row, col.key) }}</span>
+                  </div>
+                } @else if (col.key === 'status') {
+                  <span class="rm-badge" [class]="getStatusClass(getCellValue(row, col.key))">
+                    {{ getCellValue(row, col.key) }}
+                  </span>
+                } @else {
+                  {{ getCellValue(row, col.key) }}
+                }
+              </td>
+            }
+            <td class="rm-table-td rm-table-actions">
+              <div class="rm-actions">
+                <button type="button" (click)="onView(row)" class="rm-action rm-action-view">
+                  Ver
+                </button>
+                <button type="button" (click)="onDelete(row)" class="rm-action rm-action-delete">
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
