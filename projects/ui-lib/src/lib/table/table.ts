@@ -18,12 +18,12 @@ import type { TableColumn, TableAction } from '../types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class TableComponent<T extends Record<string, unknown>> {
+export class TableComponent {
   /** Columnas a mostrar en la tabla ({ key, header }) */
   columns = input<TableColumn[]>([]);
 
   /** Filas a renderizar (genérico) */
-  rows = input<T[]>([]);
+  rows = input<Record<string, unknown>[]>([]);
 
   /** Estado de carga: muestra skeletonRows */
   loading = input<boolean>(false);
@@ -35,7 +35,7 @@ export class TableComponent<T extends Record<string, unknown>> {
   errorMessage = input<string | null>(null);
 
   /** Evento al pulsar Ver o Eliminar */
-  actionTriggered = output<TableAction<T>>();
+  actionTriggered = output<TableAction<Record<string, unknown>>>();
 
   /** Número de filas skeleton durante loading */
   skeletonRows = Array(5).fill(null);
@@ -43,19 +43,19 @@ export class TableComponent<T extends Record<string, unknown>> {
   constructor(private cdr: ChangeDetectorRef) {}
 
   /** Emite la acción `view` con la fila seleccionada. */
-  onView(row: T) {
+  onView(row: Record<string, unknown>) {
     this.actionTriggered.emit({ action: 'view', row });
     this.cdr.markForCheck();
   }
 
   /** Emite la acción `delete` con la fila seleccionada. */
-  onDelete(row: T) {
+  onDelete(row: Record<string, unknown>) {
     this.actionTriggered.emit({ action: 'delete', row });
     this.cdr.markForCheck();
   }
 
   /** Valor de celda como texto */
-  getCellValue(row: T, key: string): string {
+  getCellValue(row: Record<string, unknown>, key: string): string {
     return String(row[key] ?? '');
   }
 

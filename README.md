@@ -110,11 +110,11 @@ npm run build
 | Tipo | Nombre | Tipo TS | Descripción |
 |------|--------|---------|-------------|
 | `input()` | `columns` | `TableColumn[]` | `{ key, header }` |
-| `input()` | `rows` | `T[]` | Datos (genérico) |
+| `input()` | `rows` | `Record<string, unknown>[]` | Datos de la tabla |
 | `input()` | `loading` | `boolean` | Filas skeleton |
 | `input()` | `emptyMessage` | `string` | Sin resultados |
 | `input()` | `errorMessage` | `string \| null` | Error de red en la tabla |
-| `output()` | `actionTriggered` | `TableAction<T>` | `{ action: 'view' \| 'delete', row }` |
+| `output()` | `actionTriggered` | `TableAction<Record<string, unknown>>` | `{ action: 'view' \| 'delete', row }` |
 
 ```html
 <ui-table
