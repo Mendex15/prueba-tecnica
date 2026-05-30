@@ -168,6 +168,15 @@ En `projects/demo-app/public/`:
 - Se añadieron JSDoc en componentes públicos de `ui-lib` (`ui-button`, `ui-card`, `ui-table`) para documentar `input()`/`output()`/`model()` y métodos públicos.
 - Las interfaces de la API (`Character`, `Episode`, `Location`) están definidas en [projects/demo-app/src/app/resource.ts](projects/demo-app/src/app/resource.ts) y se utilizan en la demo para garantizar tipado estricto (sin `any`).
 
+**Cambios UI recientes:**
+
+- Se añadió comportamiento dinámico en el header para mejorar la navegación: al desplazar la página hacia abajo el header se oculta, y al desplazar hacia arriba vuelve a mostrarse. Esto mejora la visibilidad del contenido en pantallas pequeñas y aporta una experiencia más inmersiva. Implementación en:
+  - `projects/demo-app/src/app/app.ts` (lógica de scroll y señal `headerVisible`)
+  - `projects/demo-app/src/app/app.html` (enlace de clase `header-hidden`)
+  - `projects/demo-app/src/app/app.css` (transición y estilo `header-hidden`)
+
+  Nota: el cambio está comiteado en el repositorio y el comportamiento puede probarse en la demo local (dev server) o en la rama `master` remota.
+
 
 ## Tecnologías
 
