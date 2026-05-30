@@ -2,7 +2,7 @@
 <div class="app-shell">
   <div class="stars" aria-hidden="true"></div>
 
-  <header class="app-header">
+  <header class="app-header" [class.header-hidden]="!headerVisible()">
     <div class="app-header-inner">
       <div class="app-hero">
         <div class="logo-wrap animate-float">

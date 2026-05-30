@@ -37,6 +37,11 @@ export interface DetailEntry {
 export class App {
   resourceService = inject(ResourceService);
 
+  /** Visibilidad del header: true = visible, false = oculto */
+  headerVisible = signal<boolean>(true);
+
+  /** Última posición de scroll conocida (px) */
+  private lastScroll = 0;
   selectedResource = signal<string>('character');
   selectedFilter = signal<string | null>(null);
   selectedRow = signal<ResourceItem | null>(null);
@@ -62,6 +67,26 @@ export class App {
     }
   }
 
+  /** Oculta el header al hacer scroll hacia abajo y lo muestra al subir */
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    const current = typeof window !== 'undefined' ? window.scrollY || window.pageYOffset : 0;
+    const delta = current - this.lastScroll;
+    const threshold = 10; // mínima diferencia para evitar jitter
+
+    if (current <= 50) {
+      // cerca del tope siempre mostrar
+      this.headerVisible.set(true);
+    } else if (delta > threshold) {
+      // scrolldown
+      this.headerVisible.set(false);
+    } else if (delta < -threshold) {
+      // scrollup
+      this.headerVisible.set(true);
+    }
+
+    this.lastScroll = current;
+  }
   /** El filtro de estado solo aplica a personajes */
   isStatusFilterEnabled(): boolean {
     return this.resourceService.activeResource() === 'character';

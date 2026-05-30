@@ -84,6 +84,17 @@
   z-index: 1;
 }
 
+/* Transición para ocultar/mostrar header al hacer scroll */
+.app-header {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.app-header.header-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* Header */
 .app-header {
   border-bottom: 1px solid rgba(34, 197, 94, 0.25);

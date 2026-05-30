@@ -141,7 +141,7 @@ npm run build
 5. **Eliminar**: botón en tabla; emite `delete` (sin persistencia local obligatoria).
 
 ## Decisiones de diseño
-
+verifi
 | Decisión | Motivo |
 |----------|--------|
 | Consumir `ui-lib` desde `dist/ui-lib` | Evita conflictos de `rootDir` y simula uso real de paquete publicado |
